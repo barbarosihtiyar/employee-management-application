@@ -26,8 +26,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lit": "^3.2.0",
-    "@vaadin/router": "^1.7.4"
+    "@lit/localize": "^0.12.2",
+    "@vaadin/router": "^1.7.4",
+    "i18next": "^25.1.2",
+    "lit": "^3.2.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",

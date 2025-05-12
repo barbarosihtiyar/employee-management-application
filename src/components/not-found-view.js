@@ -1,5 +1,6 @@
 import {LitElement, html, css} from 'lit';
 import {navigate} from '../router.js';
+import {t} from '../i18n/i18n-config.js';
 
 export class NotFoundView extends LitElement {
   static styles = css`
@@ -46,13 +47,28 @@ export class NotFoundView extends LitElement {
     }
   `;
 
+  connectedCallback() {
+    super.connectedCallback();
+    this._handleLanguageChange = this._handleLanguageChange.bind(this);
+    window.addEventListener('language-changed', this._handleLanguageChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('language-changed', this._handleLanguageChange);
+  }
+
+  _handleLanguageChange() {
+    this.requestUpdate();
+  }
+
   render() {
     return html`
       <div class="container">
         <h1>404</h1>
-        <p>Aradığınız sayfa bulunamadı.</p>
+        <p>${t('page_not_found')}</p>
         <button @click="${() => navigate('/employees')}">
-          Ana Sayfaya Dön
+          ${t('back_to_home')}
         </button>
       </div>
     `;

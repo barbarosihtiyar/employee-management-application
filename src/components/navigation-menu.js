@@ -1,93 +1,84 @@
 import {LitElement, html, css} from 'lit';
-import {localize} from '../locales/index.js';
+import {t} from '../i18n/i18n-config.js';
 import {navigate} from '../router.js';
 
 export class NavigationMenu extends LitElement {
   static styles = css`
     :host {
       display: block;
-      background-color: var(--white);
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
     }
 
     nav {
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
+      padding: 16px 0;
     }
 
     ul {
-      display: flex;
       list-style: none;
       margin: 0;
       padding: 0;
     }
 
     li {
-      margin-right: 24px;
+      margin-bottom: 4px;
     }
 
     a {
-      display: block;
-      padding: 16px 0;
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
       text-decoration: none;
       color: var(--text-color);
       font-weight: 500;
-      position: relative;
-      border-bottom: 2px solid transparent;
       transition: all 0.2s ease;
+      border-left: 3px solid transparent;
     }
 
-    a:hover,
-    a.active {
+    a:hover {
+      background-color: rgba(255, 102, 0, 0.05);
       color: var(--primary-color);
     }
 
     a.active {
-      border-bottom-color: var(--primary-color);
+      background-color: rgba(255, 102, 0, 0.1);
+      color: var(--primary-color);
+      border-left-color: var(--primary-color);
+    }
+
+    .nav-icon {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
     }
 
     .add-button {
-      margin-left: auto;
+      margin: 16px 20px;
       background-color: var(--primary-color);
       color: var(--white);
       border: none;
-      padding: 8px 16px;
+      padding: 10px;
       border-radius: 4px;
       font-weight: 500;
       display: flex;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
+      width: calc(100% - 40px);
+      transition: all 0.2s ease;
     }
 
     .add-button:hover {
       background-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(255, 102, 0, 0.2);
     }
 
     @media (max-width: 768px) {
       nav {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 12px;
-      }
-
-      ul {
-        flex-direction: column;
-      }
-
-      li {
-        margin-right: 0;
-        margin-bottom: 4px;
-      }
-
-      a {
-        padding: 12px 0;
+        padding: 8px 0;
       }
 
       .add-button {
-        margin: 12px 0 0 0;
-        justify-content: center;
+        margin: 8px 20px;
       }
     }
   `;
@@ -100,13 +91,11 @@ export class NavigationMenu extends LitElement {
     super();
     this.currentPath = window.location.pathname;
 
-    // Listen for route changes
     window.addEventListener(
       'vaadin-router-location-changed',
       this._handleRouteChange.bind(this)
     );
 
-    // Listen for language changes
     window.addEventListener('language-changed', () => this.requestUpdate());
   }
 
@@ -126,19 +115,56 @@ export class NavigationMenu extends LitElement {
           <li>
             <a
               href="/employees"
-              class="${this.currentPath.startsWith('/employees')
+              class="${this.currentPath.startsWith('/employees') &&
+              !this.currentPath.includes('/new')
                 ? 'active'
                 : ''}"
               @click="${(e) => this._handleClick(e, '/employees')}"
             >
-              ${localize('employees')}
+              <svg
+                class="nav-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              ${t('employees')}
+            </a>
+          </li>
+          <li>
+            <a
+              href="/employees/new"
+              class="${this.currentPath.includes('/employees/new')
+                ? 'active'
+                : ''}"
+              @click="${(e) => this._handleClick(e, '/employees/new')}"
+            >
+              <svg
+                class="nav-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              ${t('add_new')}
             </a>
           </li>
         </ul>
-
-        <button class="add-button" @click="${() => navigate('/employees/new')}">
-          ${localize('add_new')}
-        </button>
       </nav>
     `;
   }

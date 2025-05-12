@@ -1,6 +1,4 @@
 export const en = {
-  app_title: 'Employee Management',
-
   // Navigation
   employees: 'Employees',
   add_new: 'Add New',
@@ -20,6 +18,10 @@ export const en = {
   department: 'Department',
   position: 'Position',
   actions: 'Actions',
+  delete_selected: 'Delete Selected',
+  per_page: 'Show per page',
+  edit: 'Edit',
+  delete: 'Delete',
 
   // Department options
   analytics: 'Analytics',
@@ -27,7 +29,7 @@ export const en = {
 
   // Position options
   junior: 'Junior',
-  medior: 'Medior',
+  mid: 'Mid',
   senior: 'Senior',
 
   // Employee Form
@@ -41,10 +43,12 @@ export const en = {
   invalid_email: 'Please enter a valid email address',
   invalid_phone: 'Please enter a valid phone number',
   duplicate_email: 'An employee with this email already exists',
+  duplicate_phone: 'An employee with this phone number already exists',
 
   // Confirmation dialogs
   are_you_sure: 'Are you sure?',
   confirm_delete: 'Selected Employee record of {name} will be deleted',
+  confirm_batch_delete: '{count} employee records will be deleted',
   confirm_update: 'Do you want to update this employee record?',
   proceed: 'Proceed',
 
@@ -57,4 +61,13 @@ export const en = {
   employee_added: 'Employee successfully added',
   employee_updated: 'Employee successfully updated',
   employee_deleted: 'Employee successfully deleted',
+
+  no_employees_found: 'No employees found',
+
+  // Language
+  language: 'Language',
+
+  // Not Found Page
+  page_not_found: 'Page not found',
+  back_to_home: 'Back to Home',
 };

@@ -98,6 +98,21 @@ export default {
       timeout: '60000',
     },
   },
+  // Test kurulum dosyasını dahil et
+  testRunnerHtml: (testFramework) => `
+    <html>
+      <head>
+        <script type="module">
+          // Import test setup
+          import './test/setup.js';
+        </script>
+        <script type="module" src="${testFramework}"></script>
+      </head>
+      <body>
+        <div id="mocha"></div>
+      </body>
+    </html>
+  `,
   plugins: [
     // Detect browsers without modules (e.g. IE11) and transform to SystemJS
     // (https://modern-web.dev/docs/dev-server/plugins/legacy/).

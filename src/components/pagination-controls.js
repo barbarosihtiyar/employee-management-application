@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {localize} from '../locales/index.js';
+import {t} from '../i18n/i18n-config.js';
 
 export class PaginationControls extends LitElement {
   static styles = css`
@@ -78,7 +78,6 @@ export class PaginationControls extends LitElement {
     this.totalPages = 1;
     this.visiblePageCount = 5;
 
-    // Listen for language changes
     window.addEventListener('language-changed', () => this.requestUpdate());
   }
 
@@ -107,7 +106,6 @@ export class PaginationControls extends LitElement {
       startPage + this.visiblePageCount - 1
     );
 
-    // Adjust start page if needed
     if (endPage - startPage + 1 < this.visiblePageCount) {
       startPage = Math.max(1, endPage - this.visiblePageCount + 1);
     }
@@ -130,11 +128,11 @@ export class PaginationControls extends LitElement {
           ?disabled="${this.currentPage === 1}"
           @click="${() => this._onPageChange(this.currentPage - 1)}"
         >
-          ${localize('prev')}
+          ${t('prev')}
         </button>
 
         <div class="page-info">
-          ${localize('page_of', {
+          ${t('page_of', {
             current: this.currentPage,
             total: this.totalPages,
           })}
@@ -157,7 +155,7 @@ export class PaginationControls extends LitElement {
           ?disabled="${this.currentPage === this.totalPages}"
           @click="${() => this._onPageChange(this.currentPage + 1)}"
         >
-          ${localize('next')}
+          ${t('next')}
         </button>
       </div>
     `;

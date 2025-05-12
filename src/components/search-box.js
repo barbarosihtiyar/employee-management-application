@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {localize} from '../locales/index.js';
+import {t} from '../i18n/i18n-config.js';
 
 export class SearchBox extends LitElement {
   static styles = css`
@@ -63,23 +63,22 @@ export class SearchBox extends LitElement {
   constructor() {
     super();
     this.value = '';
-    this.placeholder = localize('search');
+    this.placeholder = t('search');
 
-    // Debounce search
     this._debounceTimer = null;
     this._debounceTime = 300;
 
-    // Listen for language changes
     window.addEventListener('language-changed', () => {
-      this.placeholder = localize('search');
+      this.placeholder = t('search');
+      this.requestUpdate();
     });
   }
 
   _handleInput(e) {
     this.value = e.target.value;
 
-    // Debounce search event
     clearTimeout(this._debounceTimer);
+
     this._debounceTimer = setTimeout(() => {
       this._dispatchSearchEvent();
     }, this._debounceTime);
@@ -103,9 +102,12 @@ export class SearchBox extends LitElement {
 
   render() {
     return html`
-      <div class="search-container">
+      <div
+        class="search-container"
+        style="display: flex; align-items: center; position: relative;"
+      >
         <svg
-          class="search-icon"
+          style="position: absolute; left: 12px; color: var(--text-color); width: 20px; height: 20px; opacity: 0.5;"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
@@ -122,10 +124,15 @@ export class SearchBox extends LitElement {
           .value="${this.value}"
           placeholder="${this.placeholder}"
           @input="${this._handleInput}"
+          style="padding: 10px 16px; padding-left: 40px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; width: 100%; background-color: var(--white);"
         />
         ${this.value
           ? html`
-              <button class="clear-button" @click="${this._handleClear}">
+              <button
+                class="clear-button"
+                @click="${this._handleClear}"
+                style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: var(--text-color); opacity: 0.5; padding: 0;"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
